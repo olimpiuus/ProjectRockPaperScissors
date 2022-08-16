@@ -13,7 +13,18 @@
 
 .btn-group {
     display: flex;
+}
+
+h4 {
     margin-top: 50px;
+}
+
+.your-pick-heading {
+    color: #0d6efd;
+}
+
+.computer-pick-heading {
+    color: #dc3545;
 }
 
 .title {

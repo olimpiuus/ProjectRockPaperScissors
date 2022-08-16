@@ -1,7 +1,8 @@
-const gameValues = ['Paper', 'Rock', 'Scissors'];
+const gameValues = ['Rock', 'Paper', 'Scissors'];
 let playerScore = 0;
 let computerScore = 0;
 const buttons = [...document.querySelectorAll('.btn-pick')]
+const buttonsComputer = [...document.querySelectorAll('.btn-computer')]
 
 const playerScoreHtml = document.querySelector('.player-score__value')
 const playerProgressBar = document.querySelector('.player-score__progress')
@@ -22,14 +23,34 @@ buttons.forEach((elem) => {
     })
 })
 
-function randomValue() {
-    return gameValues[Math.floor(Math.random() * (3))]
+function activateComputerChoice(computerChoiceIndex) {
+    buttonsComputer.forEach((e) => {
+        e.classList.add('btn-outline-danger')
+        e.classList.remove('btn-danger')
+        e.classList.add('disabled')
+    })
+
+
+
+    buttonsComputer[computerChoiceIndex].classList.remove('btn-outline-danger')
+    buttonsComputer[computerChoiceIndex].classList.add('btn-danger')
+    buttonsComputer[computerChoiceIndex].classList.remove('disabled')
+}
+
+function resetComputerChoice() {
+
+}
+
+function randomIndex() {
+    return Math.floor(Math.random() * (3))
 }
 
 function resetGame() {
     playerScore = 0
     computerScore = 0
     console.log('Score restore.');
+    updateComputerScoreHtml(computerScore)
+    updatePlayerScoreHtml(playerScore)
 }
 
 function updatePlayerScoreHtml(score) {
@@ -40,10 +61,14 @@ function updatePlayerScoreHtml(score) {
 function updateComputerScoreHtml(score) {
     computerScoreHtml.textContent = score;
     computerProgressBar.style.width = `${score*33.3}%`;
+
 }
 
+
 function getResult(playerPick) {
-    const computerChoice = randomValue();
+    const index = randomIndex()
+    const computerChoice = gameValues[index];
+    activateComputerChoice(index)
     const gamePair = `["${playerPick}","${computerChoice}"]`.toLocaleLowerCase()
     const parcedPairWinner = JSON.stringify(pairWinner);
     if (playerPick === computerChoice) { return console.log('The draw') } else {
@@ -57,15 +82,11 @@ function getResult(playerPick) {
     }
     if (computerScore === 3) {
         console.log(`You lose. Try again.`);
-        resetGame()
-        updateComputerScoreHtml(computerScore)
-        updatePlayerScoreHtml(playerScore)
+        setTimeout(resetGame, 1500)
     }
     if (playerScore === 3) {
         console.log(`You win. Congrats`);
-        resetGame()
-        updateComputerScoreHtml(computerScore)
-        updatePlayerScoreHtml(playerScore)
+        setTimeout(resetGame, 1500)
     }
 
 }
